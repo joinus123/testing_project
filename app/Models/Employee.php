@@ -20,5 +20,9 @@ class Employee extends Model
          'password',
 
     ];
+    public function images()
+    {
+        return $this->hasMany(UserImage::class,'user_id');
+    }
 
 }

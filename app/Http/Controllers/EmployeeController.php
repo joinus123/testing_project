@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use App\Models\UserImage;
 
 class EmployeeController extends Controller
 {
@@ -14,14 +15,13 @@ class EmployeeController extends Controller
 
     public function sumbit_employee(Request $request)
     {
+        // dd($request->file('main_image'));
 
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        // $request->validate([
+        //     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        // ]);
 
-
-
-            if($request->hasFile('image')){
+          if($request->hasFile('image')){
                 $imageName = time().'.'.$request->image->extension();
 
                 $request->image->move(public_path('images'), $imageName);
@@ -41,14 +41,28 @@ class EmployeeController extends Controller
 
          ]);
 
-        Employee::Create( $submit_employee);
+        $emp = Employee::Create( $submit_employee)->id;
+
+        if($request->hasfile('main_image'))
+        {
+
+           foreach($request->file('main_image') as $image)
+           {
+               $name=$image->getClientOriginalName();
+               $image->move(public_path().'/img/', $name);
+               UserImage::create(['user_id'=>$emp,'main_image'=>$name]);
+           }
+        }
+
 
         return redirect()->route('list-employee')->with(array('message'=>'Record add Succcessfully','class'=>'alert alert-success'));
     }
 
     public function list_employee()
     {
-        $data=Employee::all();
+        $data=Employee::with('images')->get()->toArray();
+        //dd($data);
+
         return view('admin.list',compact('data'));
 
     }

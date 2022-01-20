@@ -13,7 +13,7 @@
     </div>
     <!-- /.card-header -->
     <!-- form start -->
-    <form action={{route('submit-employee')}} method ="post" enctype="multipart/form-data">
+    <form action="{{route('submit-employee')}}" method ="post" enctype="multipart/form-data">
         @csrf
       <div class="card-body">
 
@@ -49,6 +49,20 @@
             </div>
           </div>
         </div>
+
+        <div class="form-group">
+            <label for="exampleInputFile">Main Image</label>
+            <div class="input-group">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" name="main_image[]" id="exampleInputFile" multiple>
+                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+              </div>
+              <div class="input-group-append">
+                <span class="input-group-text">Upload</span>
+              </div>
+            </div>
+          </div>
+
       </div>
       <!-- /.card-body -->
 
@@ -64,42 +78,5 @@
 @stop
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
-<script>
-    @if(Session::has('success'))
-    toastr.options =
-    {
-        "closeButton" : true,
-        "progressBar" : true
-    }
-            toastr.success("{{ session('success') }}");
-    @endif
-
-    @if(Session::has('error'))
-    toastr.options =
-    {
-        "closeButton" : true,
-        "progressBar" : true
-    }
-            toastr.error("{{ session('error') }}");
-    @endif
-
-    @if(Session::has('info'))
-    toastr.options =
-    {
-        "closeButton" : true,
-        "progressBar" : true
-    }
-            toastr.info("{{ session('info') }}");
-    @endif
-
-    @if(Session::has('warning'))
-    toastr.options =
-    {
-        "closeButton" : true,
-        "progressBar" : true
-    }
-            toastr.warning("{{ session('warning') }}");
-    @endif
   </script>

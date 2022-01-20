@@ -28,6 +28,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>phone Number</th>
+                        <th>Multiple Image</th>
                         <th>Role</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -35,13 +36,20 @@
 
                 </thead>
                 <tbody>
+                 
                     @foreach ($data as $view)
-                     {{-- $img = $view['image']; --}}
-                    <tr>
-                        <td>{{$view['id']}}</td>
-                        <td><a href="#" ><img src="{{ asset('images/' . $view['Image']) }}" style="width: 50px" class="avatar" alt="Avatar">{{$view['fullname']}}</a></td>
+                    <tr>                        
+                       <td>{{$view['id']}}</td>
+                        <td><a href="#" ><img src="{{ asset('images/' . $view['Image']) }}" style="width: 30px" class="avatar" alt="Avatar">{{$view['fullname']}}</a></td>
                         <td>{{$view['email']}}</td>
                         <td>{{$view['phone_number']}}</td>
+                        <td>
+                        @forelse ($view['images'] as $v)
+                        <a href="#" ><img src="{{ asset('img/' . $v['main_image']) }}" style="width: 30px" class="avatar" alt="Avatar"></a>
+                        @empty
+                        sala,
+                        @endforelse
+                        </td>
                         <td><button class="btn btn-danger">{{$view['Role']}}</td>
 
                         <td><button class="btn btn-success">{{$view['status']}}</button> </td>
@@ -50,8 +58,8 @@
                             <a href="{{route('delete-employee',$view['id'])}}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
 
                         </td>
-                        @endforeach
-                    </tr>
+                          </tr>
+                          @endforeach
 
 
 
